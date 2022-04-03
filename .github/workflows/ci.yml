@@ -1,0 +1,21 @@
+name: Scala
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: temurin
+        java-version: 8
+    - name: Lint
+      run: sbt scalafmtCheck test:scalafmtCheck
+      working-directory: scala_sbt
+    - name: Build and Test
+      run: sbt -v +test
+      working-directory: scala_sbt
