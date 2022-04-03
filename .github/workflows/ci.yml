@@ -15,7 +15,5 @@ jobs:
         java-version: 8
     - name: Lint
       run: sbt scalafmtCheck test:scalafmtCheck
-      working-directory: scala_sbt
     - name: Build and Test
       run: sbt -v +test
-      working-directory: scala_sbt
