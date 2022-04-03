@@ -3,5 +3,4 @@
 .metals
 .vscode
 **/target
-.scalafmt.conf
 metals.sbt
