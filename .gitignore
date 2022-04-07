@@ -3,4 +3,5 @@
 .metals
 .vscode
 **/target
+**/resources
 metals.sbt
