@@ -3,8 +3,10 @@ package simpledb.file;
 import java.nio.ByteBuffer;
 import java.nio.charset._;
 
-class Page(val blocksize: Int) {
-  protected val bb = ByteBuffer.allocateDirect(blocksize);
+class Page(val b: Any) {
+  protected val bb =
+    if (b.isInstanceOf[Int]) ByteBuffer.allocateDirect(b.asInstanceOf[Int])
+    else ByteBuffer.wrap(b.asInstanceOf[Array[Byte]]);
   protected val CHARSET: Charset = StandardCharsets.US_ASCII;
 
   def getInt(offset: Int): Int = {
