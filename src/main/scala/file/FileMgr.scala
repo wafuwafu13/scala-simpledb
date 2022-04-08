@@ -71,7 +71,7 @@ class FileMgr(val dbDirectory: File, val blocksize: Int) {
   }
 
   def blockSize(): Int = {
-    return blocksize;
+    blocksize;
   }
 
   @throws(classOf[IOException])

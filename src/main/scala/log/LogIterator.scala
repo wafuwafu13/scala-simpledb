@@ -29,7 +29,7 @@ class LogIterator(val fm: FileMgr, var blk: BlockId)
     *   true if there is an earlier record
     */
   def hasNext(): Boolean = {
-    return currentpos < fm.blockSize() || blk.number() > 0;
+    currentpos < fm.blockSize() || blk.number() > 0;
   }
 
   /** Moves to the next log record in the block. If there are no more log
@@ -45,7 +45,7 @@ class LogIterator(val fm: FileMgr, var blk: BlockId)
     }
     val rec: Array[Byte] = p.getBytes(currentpos);
     currentpos += Integer.BYTES + rec.length;
-    return rec;
+    rec;
   }
 
   /** Moves to the specified log block and positions it at the first record in
