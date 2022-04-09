@@ -53,7 +53,7 @@ class LogTest extends AnyFunSuite {
   test("Log") {
     val path: String = "./resources/logtest";
     val blockSize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), 400);
+    val fm: FileMgr = new FileMgr(new File(path), blockSize);
     val logfilename: String = "simpledb.log";
     val lm = new LogMgr(fm, logfilename);
 
