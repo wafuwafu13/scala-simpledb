@@ -21,7 +21,7 @@ class RecordTest extends AnyFunSuite {
     val sch: Schema = new Schema();
     sch.addIntField("A");
     sch.addStringField("B", 9);
-    val layout: Layout = new Layout(sch);
+    val layout: Layout = new Layout(sch, null, null);
     layout
       .getSchema()
       .getFields()

@@ -8,7 +8,7 @@ class LayoutTest extends AnyFunSuite {
     sch.addStringField("A", 9);
     sch.addIntField("B");
 
-    val layout: Layout = new Layout(sch);
+    val layout: Layout = new Layout(sch, null, null);
     var expect = 4;
     layout
       .getSchema()

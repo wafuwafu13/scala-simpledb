@@ -21,7 +21,7 @@ class TableScanTest extends AnyFunSuite {
     val sch = new Schema();
     sch.addIntField("A");
     sch.addStringField("B", 9);
-    val layout = new Layout(sch);
+    val layout = new Layout(sch, null, null);
     layout
       .getSchema()
       .getFields()
