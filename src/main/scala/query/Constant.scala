@@ -26,6 +26,11 @@ class Constant(value: Any) extends Comparable[Constant] {
     if (ival != null) ival == c.ival else sval == c.sval;
   }
 
+  def isequals(obj: Object): Boolean = {
+    val c: Constant = obj.asInstanceOf[Constant];
+    if (ival != null) ival.equals(c.ival) else sval.equals(c.sval);
+  }
+
   def compareTo(c: Constant): Int = {
     if (ival != null) ival.asInstanceOf[Int].compareTo(c.ival.asInstanceOf[Int])
     else sval.asInstanceOf[String].compareTo(c.sval.asInstanceOf[String]);

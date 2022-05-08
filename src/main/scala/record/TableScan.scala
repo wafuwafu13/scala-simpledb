@@ -9,7 +9,8 @@ import simpledb.tx.Transaction;
   * @author
   *   sciore
   */
-class TableScan(val tx: Transaction, val tblname: String, val layout: Layout) {
+class TableScan(val tx: Transaction, val tblname: String, val layout: Layout)
+    extends UpdateScan {
 
   private var rp: RecordPage = null;
   private var currentslot: Int = 0;
