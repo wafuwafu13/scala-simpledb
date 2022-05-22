@@ -1,23 +1,14 @@
 package simpledb.metadata;
 
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import simpledb.tx.Transaction;
 import simpledb.record._;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class CatalogTest extends AnyFunSuite {
   test("Catalog") {
-    val path: String = "./resources/tabletest";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
+    val db = new SimpleDB("tabletest", 400, 8);
+    val tx: Transaction = db.newTx();
     // TODO: false
     val tm: TableMgr = new TableMgr(true, tx);
     val tcatLayout: Layout = tm.getLayout("tblcat", tx);

@@ -1,28 +1,15 @@
 package simpledb.plan;
 
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import simpledb.tx.Transaction;
-import simpledb.metadata.MetadataMgr;
 import simpledb.query.Scan;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class PlannerTest1 extends AnyFunSuite {
   test("Planner1") {
-    val path: String = "./resources/plannertest1";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
-    val mdm: MetadataMgr = new MetadataMgr(true, tx);
-    val qp: QueryPlanner = new BasicQueryPlanner(mdm);
-    val up: UpdatePlanner = new BasicUpdatePlanner(mdm);
-    val planner = new Planner(qp, up);
+    val db = new SimpleDB("plannertest1", null, null);
+    val tx: Transaction = db.newTx();
+    val planner = db.getPlanner();
 
     var cmd: String = "create table T1(A int, B varchar(9))";
     planner.executeUpdate(cmd, tx);

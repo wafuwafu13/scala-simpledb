@@ -1,24 +1,15 @@
 package simpledb.query;
 
-import java.util._;
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import simpledb.tx.Transaction;
 import simpledb.record._;
+import java.util._;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class ScanTest1 extends AnyFunSuite {
   test("Scan1") {
-    val path: String = "./resources/scantest1";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
+    val db = new SimpleDB("scantest", null, null);
+    val tx: Transaction = db.newTx();
 
     val sch1: Schema = new Schema();
     sch1.addIntField("A");

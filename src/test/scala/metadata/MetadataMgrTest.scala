@@ -1,25 +1,16 @@
 package simpledb.metadata;
 
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import java.sql.Types.INTEGER;
 import java.util.Map;
 import simpledb.tx.Transaction;
 import simpledb.record._;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class MetadataMgrTest extends AnyFunSuite {
   test("MetadataMgr") {
-    val path: String = "./resources/metadatamgrtest";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
+    val db = new SimpleDB("metadatamgrtest", 400, 8);
+    val tx: Transaction = db.newTx();
     val mdm: MetadataMgr = new MetadataMgr(true, tx);
 
     val sch: Schema = new Schema();

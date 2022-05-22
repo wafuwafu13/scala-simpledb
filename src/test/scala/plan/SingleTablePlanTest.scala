@@ -1,15 +1,11 @@
 package simpledb.plan;
 
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import simpledb.tx.Transaction;
 import simpledb.metadata.MetadataMgr;
 import simpledb.query._;
 import java.util._;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class SingleTablePlanTest extends AnyFunSuite {
   def printStats(n: Int, p: Plan): Unit = {
@@ -20,14 +16,9 @@ class SingleTablePlanTest extends AnyFunSuite {
   }
 
   test("SingleTablePlan") {
-    val path: String = "./resources/studentdb";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
-    val mdm: MetadataMgr = new MetadataMgr(true, tx);
+    val db = new SimpleDB("studentdb", null, null);
+    val mdm = db.mdMgr();
+    val tx = db.newTx();
 
     // TODO: fix IndexOutOfBoundsException
     // // the STUDENT node

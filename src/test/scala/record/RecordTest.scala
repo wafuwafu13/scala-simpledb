@@ -1,22 +1,14 @@
 package simpledb.record;
 
-import simpledb.file._;
-import simpledb.buffer.BufferMgr;
-import simpledb.log.LogMgr;
-import simpledb.file.BlockId;
+import simpledb.server.SimpleDB;
 import simpledb.tx.Transaction;
+import simpledb.file._;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class RecordTest extends AnyFunSuite {
   test("Record") {
-    val path: String = "./resources/recordtest";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
-    val tx: Transaction = new Transaction(fm, lm, bm);
+    val db = new SimpleDB("record", null, null);
+    val tx: Transaction = db.newTx();
 
     val sch: Schema = new Schema();
     sch.addIntField("A");

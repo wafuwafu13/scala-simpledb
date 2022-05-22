@@ -2,17 +2,11 @@ package simpledb.buffer;
 
 import org.scalatest.funsuite.AnyFunSuite;
 import simpledb.file._;
-import simpledb.log._;
-import java.io.File;
+import simpledb.server.SimpleDB;
 
 class BufferTest extends AnyFunSuite {
-  val path: String = "./resources/buffertest";
-  val blockSize: Int = 400;
-  val fm: FileMgr = new FileMgr(new File(path), blockSize);
-  val logfilename: String = "simpledb.log";
-  val lm = new LogMgr(fm, logfilename);
-  val bufferSize: Int = 3;
-  val bm = new BufferMgr(fm, lm, bufferSize);
+  val db = new SimpleDB("buffertest", 400, 3); // only 3 buffers
+  val bm = db.bufferMgr();
 
   val buff1: Buffer = bm.pin(new BlockId("testfile", 1));
   val p: Page = buff1.getContents();

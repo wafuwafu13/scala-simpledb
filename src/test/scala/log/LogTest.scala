@@ -2,10 +2,9 @@ package simpledb.log;
 
 import java.util.Iterator;
 import simpledb.file.Page;
-import simpledb.file.FileMgr;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 import java.nio.charset._;
+import simpledb.server.SimpleDB;
 
 class LogTest extends AnyFunSuite {
   private def printLogRecords(lm: LogMgr, msg: String): Unit = {
@@ -51,11 +50,8 @@ class LogTest extends AnyFunSuite {
   }
 
   test("Log") {
-    val path: String = "./resources/logtest";
-    val blockSize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blockSize);
-    val logfilename: String = "simpledb.log";
-    val lm = new LogMgr(fm, logfilename);
+    val db = new SimpleDB("logtest", 400, 8);
+    val lm = db.logMgr();
 
     printLogRecords(
       lm,

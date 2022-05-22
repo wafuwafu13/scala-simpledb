@@ -1,13 +1,13 @@
 package simpledb.file
 
 import org.scalatest.funsuite.AnyFunSuite
-import java.io.File;
+import java.io._;
+import simpledb.server.SimpleDB;
 
 class FileTest extends AnyFunSuite {
   test("File") {
-    val path: String = "./resources/filetest"
-    val blockSize: Int = 400
-    val fm: FileMgr = new FileMgr(new File(path), 400)
+    val db = new SimpleDB("filetest", 400, 8);
+    val fm: FileMgr = db.fileMgr();
     val blk: BlockId = new BlockId("testfile", 2);
     val pos1: Int = 88;
 

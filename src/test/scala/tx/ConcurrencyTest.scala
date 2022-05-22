@@ -1,19 +1,17 @@
 package simpledb.tx;
 
+import simpledb.server.SimpleDB;
 import simpledb.buffer.BufferMgr;
 import simpledb.file._;
 import simpledb.log.LogMgr;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class ConcurrencyTest extends AnyFunSuite {
   test("Log") {
-    val path: String = "./resources/concurrencytest";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
+    val db = new SimpleDB("concurrencytest", 400, 8);
+    val fm = db.fileMgr();
+    val lm = db.logMgr();
+    val bm = db.bufferMgr();
     val a: A = new A(fm, lm, bm); new Thread(a).start();
     val b: B = new B(fm, lm, bm); new Thread(b).start();
     val c: C = new C(fm, lm, bm); new Thread(c).start();

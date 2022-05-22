@@ -1,19 +1,16 @@
 package simpledb.tx;
 
+import simpledb.server.SimpleDB;
 import simpledb.buffer.BufferMgr;
 import simpledb.file._;
-import simpledb.log.LogMgr;
 import org.scalatest.funsuite.AnyFunSuite;
-import java.io.File;
 
 class TxTest extends AnyFunSuite {
   test("Tx") {
-    val path: String = "./resources/txtest";
-    val logfilename: String = "simpledb.log";
-    val blocksize: Int = 400;
-    val fm: FileMgr = new FileMgr(new File(path), blocksize);
-    val lm = new LogMgr(fm, logfilename);
-    val bm = new BufferMgr(fm, lm, 8);
+    val db = new SimpleDB("txtest", 400, 8);
+    val fm = db.fileMgr();
+    val lm = db.logMgr();
+    val bm = db.bufferMgr();
 
     val tx1: Transaction = new Transaction(fm, lm, bm);
     val blk: BlockId = new BlockId("testfile", 1);
