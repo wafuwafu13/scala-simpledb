@@ -2,7 +2,7 @@ package simpledb.query;
 
 import java.util._;
 
-// import simpledb.plan.Plan;
+import simpledb.plan.Plan;
 import simpledb.record._;
 
 /** A predicate is a Boolean combination of terms.
@@ -47,13 +47,13 @@ class Predicate(val t: Any) {
     * @return
     *   the integer reduction factor.
     */
-  //  def reductionFactor(p: Plan): Int = {
-  //     var factor: Int = 1;
-  //     terms.forEach(t => {
-  //       factor *= t.reductionFactor(p);
-  //     })
-  //     factor;
-  //  }
+  def reductionFactor(p: Plan): Int = {
+    var factor: Int = 1;
+    terms.forEach(t => {
+      factor *= t.reductionFactor(p);
+    })
+    factor;
+  }
 
   /** Return the subpredicate that applies to the specified schema.
     * @param sch

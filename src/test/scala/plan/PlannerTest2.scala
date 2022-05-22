@@ -1,0 +1,56 @@
+package simpledb.plan;
+
+import simpledb.file._;
+import simpledb.buffer.BufferMgr;
+import simpledb.log.LogMgr;
+import simpledb.file.BlockId;
+import simpledb.tx.Transaction;
+import simpledb.metadata.MetadataMgr;
+import simpledb.query.Scan;
+import org.scalatest.funsuite.AnyFunSuite;
+import java.io.File;
+
+class PlannerTest2 extends AnyFunSuite {
+  test("Planner2") {
+    val path: String = "./resources/plannertest2";
+    val logfilename: String = "simpledb.log";
+    val blocksize: Int = 400;
+    val fm: FileMgr = new FileMgr(new File(path), blocksize);
+    val lm = new LogMgr(fm, logfilename);
+    val bm = new BufferMgr(fm, lm, 8);
+    val tx: Transaction = new Transaction(fm, lm, bm);
+    val mdm: MetadataMgr = new MetadataMgr(true, tx);
+    val qp: QueryPlanner = new BasicQueryPlanner(mdm);
+    val up: UpdatePlanner = new BasicUpdatePlanner(mdm);
+    val planner = new Planner(qp, up);
+
+    var cmd: String = "create table T1(A int, B varchar(9))";
+    planner.executeUpdate(cmd, tx);
+    val n: Int = 200;
+    println("Inserting " + n + " records into T1.");
+    for (i <- 0 until n) {
+      val a: Int = i;
+      val b: String = "bbb" + a;
+      cmd = "insert into T1(A,B) values(" + a + ", '" + b + "')";
+      planner.executeUpdate(cmd, tx);
+    }
+
+    cmd = "create table T2(C int, D varchar(9))";
+    planner.executeUpdate(cmd, tx);
+    println("Inserting " + n + " records into T2.");
+    for (i <- 0 until n) {
+      val c: Int = n - i - 1;
+      val d: String = "ddd" + c;
+      cmd = "insert into T2(C,D) values(" + c + ", '" + d + "')";
+      planner.executeUpdate(cmd, tx);
+    }
+
+    val qry: String = "select B,D from T1,T2 where A=C";
+    val p: Plan = planner.createQueryPlan(qry, tx);
+    val s: Scan = p.open();
+    while (s.next())
+      println(s.getString("b") + " " + s.getString("d"));
+    s.close();
+    tx.commit();
+  }
+}

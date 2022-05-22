@@ -1,6 +1,6 @@
 package simpledb.query;
 
-// import simpledb.plan.Plan;
+import simpledb.plan.Plan;
 import simpledb.record._;
 
 /** A term is a comparison between two expressions.
@@ -36,29 +36,28 @@ class Term(val lhs: Expression, val rhs: Expression) {
     * @return
     *   the integer reduction factor.
     */
-  // def reductionFactor(p: Plan): Int = {
-  //    var lhsName: String = "";
-  //    var rhsName: String = "";
-  //    if (lhs.isFieldName() && rhs.isFieldName()) {
-  //       lhsName = lhs.asFieldName();
-  //       rhsName = rhs.asFieldName();
-  //       return Math.max(p.distinctValues(lhsName),
-  //                       p.distinctValues(rhsName));
-  //    }
-  //    if (lhs.isFieldName()) {
-  //       lhsName = lhs.asFieldName();
-  //       return p.distinctValues(lhsName);
-  //    }
-  //    if (rhs.isFieldName()) {
-  //       rhsName = rhs.asFieldName();
-  //       return p.distinctValues(rhsName);
-  //    }
-  //    // otherwise, the term equates constants
-  //    if (lhs.asConstant().equals(rhs.asConstant()))
-  //       1;
-  //    else
-  //       Integer.MAX_VALUE;
-  // }
+  def reductionFactor(p: Plan): Int = {
+    var lhsName: String = "";
+    var rhsName: String = "";
+    if (lhs.isFieldName() && rhs.isFieldName()) {
+      lhsName = lhs.asFieldName();
+      rhsName = rhs.asFieldName();
+      return Math.max(p.distinctValues(lhsName), p.distinctValues(rhsName));
+    }
+    if (lhs.isFieldName()) {
+      lhsName = lhs.asFieldName();
+      return p.distinctValues(lhsName);
+    }
+    if (rhs.isFieldName()) {
+      rhsName = rhs.asFieldName();
+      return p.distinctValues(rhsName);
+    }
+    // otherwise, the term equates constants
+    if (lhs.asConstant().equals(rhs.asConstant()))
+      1;
+    else
+      Integer.MAX_VALUE;
+  }
 
   /** Determine if this term is of the form "F=c" where F is the specified field
     * and c is some constant. If so, the method returns that constant. If not,
