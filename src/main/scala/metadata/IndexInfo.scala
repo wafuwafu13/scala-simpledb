@@ -3,8 +3,8 @@ package simpledb.metadata;
 import java.sql.Types.INTEGER;
 import simpledb.tx.Transaction;
 import simpledb.record._;
-// import simpledb.index.Index;
-// import simpledb.index.hash.HashIndex;
+import simpledb.index.Index;
+import simpledb.index.hash.HashIndex;
 // import simpledb.index.btree.BTreeIndex; //in case we change to btree indexing
 
 /** The information about an index. This information is used by the query
@@ -41,10 +41,10 @@ class IndexInfo(
     * @return
     *   the Index object associated with this information
     */
-  // def open(): Index = {
-  //   return new HashIndex(tx, idxname, idxLayout);
-  //   // return new BTreeIndex(tx, idxname, idxLayout);
-  // }
+  def open(): Index = {
+    return new HashIndex(tx, idxname, idxLayout);
+    // return new BTreeIndex(tx, idxname, idxLayout);
+  }
 
   /** Estimate the number of block accesses required to find all index records
     * having a particular search key. The method uses the table's metadata to
@@ -54,12 +54,13 @@ class IndexInfo(
     * @return
     *   the number of block accesses required to traverse the index
     */
-  // def blocksAccessed(): Int = {
-  //   val rpb: Int = tx.blockSize() / idxLayout.slotSize();
-  //   val numblocks: Int = si.recordsOutput() / rpb;
-  //   HashIndex.searchCost(numblocks, rpb);
-  //   // BTreeIndex.searchCost(numblocks, rpb);
-  // }
+  def blocksAccessed(): Int = {
+    val rpb: Int = tx.blockSize() / idxLayout.slotSize();
+    val numblocks: Int = si.recordsOutput() / rpb;
+    // HashIndex.searchCost(numblocks, rpb);
+    numblocks / 100
+    // BTreeIndex.searchCost(numblocks, rpb);
+  }
 
   /** Return the estimated number of records having a search key. This value is
     * the same as doing a select query; that is, it is the number of records in
